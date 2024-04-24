@@ -4,7 +4,6 @@ const mysql = require('mysql');
 const app = express();
 app.use(express.json());
 
-// Configuración de la conexión a MySQL
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -12,7 +11,6 @@ const connection = mysql.createConnection({
   database: 'restaurante'
 });
 
-// Ruta para obtener todos los usuarios
 app.get('/usuarios', (req, res) => {
   const query = 'SELECT * FROM usuarios';
   connection.query(query, (err, results) => {
@@ -21,7 +19,6 @@ app.get('/usuarios', (req, res) => {
   });
 });
 
-// Ruta para obtener un usuario específico con sus facturas y pedidos
 app.get('/usuarios/:id', (req, res) => {
   const userId = req.params.id;
   const query = `
@@ -37,7 +34,6 @@ app.get('/usuarios/:id', (req, res) => {
   });
 });
 
-// Ruta para obtener todos los pedidos
 app.get('/pedidos', (req, res) => {
   const query = 'SELECT * FROM pedidos';
   connection.query(query, (err, results) => {
@@ -46,7 +42,6 @@ app.get('/pedidos', (req, res) => {
   });
 });
 
-// Ruta para obtener un pedido específico con su factura y usuario
 app.get('/pedidos/:id', (req, res) => {
   const pedidoId = req.params.id;
   const query = `
@@ -62,7 +57,6 @@ app.get('/pedidos/:id', (req, res) => {
   });
 });
 
-// Ruta para obtener todas las facturas
 app.get('/facturas', (req, res) => {
   const query = 'SELECT * FROM facturas';
   connection.query(query, (err, results) => {
@@ -71,7 +65,6 @@ app.get('/facturas', (req, res) => {
   });
 });
 
-// Ruta para obtener una factura específica con su usuario y pedidos
 app.get('/facturas/:id', (req, res) => {
   const facturaId = req.params.id;
   const query = `
@@ -87,7 +80,6 @@ app.get('/facturas/:id', (req, res) => {
   });
 });
 
-// Ruta para crear un nuevo pedido y su factura correspondiente
 app.post('/pedidos', (req, res) => {
   const { usuario_id, descripcion, total } = req.body;
   const query = 'INSERT INTO facturas (usuario_id, total) VALUES (?, ?)';
@@ -102,7 +94,6 @@ app.post('/pedidos', (req, res) => {
   });
 });
 
-// Ruta para actualizar un pedido existente
 app.put('/pedidos/:id', (req, res) => {
     const pedidoId = req.params.id;
     const { descripcion, total } = req.body;
@@ -118,7 +109,6 @@ app.put('/pedidos/:id', (req, res) => {
     });
   });
 
-// Ruta para eliminar un pedido existente
 app.delete('/pedidos/:id', (req, res) => {
     const pedidoId = req.params.id;
     const query = `
@@ -133,7 +123,6 @@ app.delete('/pedidos/:id', (req, res) => {
     });
   });
 
-  //Ruta para agregar nuevos usuarios.
   app.post('/usuarios', (req, res) => {
     const { nombre, email } = req.body;
     const query = 'INSERT INTO usuarios (nombre, email) VALUES (?, ?)';
@@ -142,8 +131,6 @@ app.delete('/pedidos/:id', (req, res) => {
       res.send({ message: 'Usuario creado correctamente' });
     });
   });
-
-  //Ruta para actualizar los usuarios
 
   app.put('/usuarios/:id', (req, res) => {
     const userId = req.params.id;
@@ -155,8 +142,6 @@ app.delete('/pedidos/:id', (req, res) => {
     });
   });
 
-  //Ruta para eliminar usuarios
-  
   app.delete('/usuarios/:id', (req, res) => {
     const userId = req.params.id;
     const query = `
